@@ -8,16 +8,19 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import tmall.bean.Category;
-import tmall.bean.Property;
+import tmall.bean.Product;
+import tmall.bean.ProductImage;
 import tmall.util.DBUtil;
 
-public class PropertyDAO{
+public class ProductImageDAO{
 	
-	public int getTotal(int cid) {
+	public static final String type_single = "type_single";
+	public static final String type_detail = "type_detail";
+	
+	public int getTotal() {
 		// TODO Auto-generated method stub
 		int total = 0;
-		String sql = "select count(*) from Property where cid = " + cid;
+		String sql = "select count(*) from ProductImage";
 		try (
 				Connection c = DBUtil.getConnection();
 				Statement s = c.createStatement())
@@ -33,13 +36,13 @@ public class PropertyDAO{
 		return total;
 	}
 
-	public void add(Property bean) {
+	public void add(ProductImage bean) {
 		// TODO Auto-generated method stub
-		String sql = "insert into Property values(null,?,?)";
+		String sql = "insert into ProductImage values(null,?,?)";
 		try (Connection c = DBUtil.getConnection(); PreparedStatement ps = c.prepareStatement(sql);) 
 		{
-			ps.setInt(1, bean.getCategory().getId());
-			ps.setString(2, bean.getName());
+			ps.setInt(1, bean.getProduct().getId());
+			ps.setString(2, bean.getType());
 			ps.execute();
 			ResultSet rs = ps.getGeneratedKeys();
 			if(rs.next()) {
@@ -52,28 +55,28 @@ public class PropertyDAO{
 		}
 	}
 
-	public void update(Property bean) {
+	public void update(ProductImage bean) {
 		// TODO Auto-generated method stub
-		String sql = "update Property set cid = ?, name= ? where id = ?";
-		try(
-				Connection c = DBUtil.getConnection();
-				PreparedStatement ps = c.prepareStatement(sql);)
-		{
-			ps.setInt(1, bean.getCategory().getId());
-			ps.setString(2, bean.getName());
-			ps.setInt(3, bean.getId());
-			ps.execute();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+//		String sql = "update ProductImage set cid = ?, name= ? where id = ?";
+//		try(
+//				Connection c = DBUtil.getConnection();
+//				PreparedStatement ps = c.prepareStatement(sql);)
+//		{
+//			ps.setInt(1, bean.getCategory().getId());
+//			ps.setString(2, bean.getName());
+//			ps.setInt(3, bean.getId());
+//			ps.execute();
+//		} catch (SQLException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
 	}
 
 	public void delete(int id) {
 		// TODO Auto-generated method stub
 		try (Connection c = DBUtil.getConnection(); Statement s = c.createStatement();) {
 			  
-            String sql = "delete from Property where id = " + id;
+            String sql = "delete from ProductImage where id = " + id;
   
             s.execute(sql);
   
@@ -83,24 +86,23 @@ public class PropertyDAO{
         }
     }
 
-	public Property get(int id) {
+	public ProductImage get(int id) {
 		// TODO Auto-generated method stub
-		Property bean = null;
+		ProductImage bean = new ProductImage();
 		  
         try (Connection c = DBUtil.getConnection(); Statement s = c.createStatement();) {
   
-            String sql = "select * from Property where id = " + id;
+            String sql = "select * from ProductImage where id = " + id;
   
             ResultSet rs = s.executeQuery(sql);
   
             if (rs.next()) {
-                bean = new Property();
-                int cid = rs.getInt("cid");
-                String name = rs.getString("name");
-                bean.setName(name);
+                int pid = rs.getInt("pid");
+                String type = rs.getString("type");
+                Product product = new ProductDAO().get(pid);
                 bean.setId(id);
-                Category category = new CategoryDAO().get(cid);
-                bean.setCategory(category);
+                bean.setType(type);
+                bean.setProduct(product);
             }
   
         } catch (SQLException e) {
@@ -110,29 +112,29 @@ public class PropertyDAO{
         return bean;
 	}
 
-	public List<Property> list(int cid, int start, int count) {
+	public List<ProductImage> list(Product product, String type, int start, int count) {
 		// TODO Auto-generated method stub
-		List<Property> beans = new ArrayList<>();
+		List<ProductImage> beans = new ArrayList<>();
 		
-		String sql = "select * from Property where cid = ? order by desc limit ?,?";
+		String sql = "select * from ProductImage where pid = ? and type = ? order by desc limit ?,?";
 		
 		try (
 				Connection c = DBUtil.getConnection();
 				PreparedStatement ps = c.prepareStatement(sql);
 			){
-			ps.setInt(1, cid);
-			ps.setInt(2, start);
-			ps.setInt(3, count);
+			ps.setInt(1, product.getId());
+			ps.setString(2, type);
+			ps.setInt(3, start);
+			ps.setInt(4, count);
 			
 			ResultSet rs = ps.executeQuery();
+			
 			while (rs.next()) {
-				Property bean = new Property();
+				ProductImage bean = new ProductImage();
 				int id = rs.getInt("id");
-				String name = rs.getString("name");
-				Category category = new CategoryDAO().get(cid);
-				bean.setCategory(category);
+				bean.setProduct(product);
+				bean.setType(type);
 				bean.setId(id);
-				bean.setName(name);
 				beans.add(bean);
 			}
 			
@@ -143,9 +145,9 @@ public class PropertyDAO{
 		return beans;
 	}
 
-	public List<Property> list(int cid) {
+	public List<ProductImage> list(Product product, String type) {
 		// TODO Auto-generated method stub
-		return list(cid, 0, Short.MAX_VALUE);
+		return list(product, type, 0, Short.MAX_VALUE);
 	}
 	
 }
