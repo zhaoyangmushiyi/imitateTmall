@@ -7,10 +7,10 @@ public class DateUtil {
 		}
 		return new java.sql.Timestamp(d.getTime());
 	}
-	
+
 	public static java.util.Date t2d(java.sql.Timestamp t) {
-        if (null == t)
-            return null;
-        return new java.util.Date(t.getTime());
-    }
+		if (null == t)
+			return null;
+		return new java.util.Date(t.getTime());
+	}
 }

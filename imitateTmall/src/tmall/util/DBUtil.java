@@ -11,7 +11,7 @@ public class DBUtil {
 	static String encoding = "UTF-8";
 	static String loginName = "root";
 	static String password = "admin";
-	
+
 	static {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
@@ -20,12 +20,13 @@ public class DBUtil {
 			e.printStackTrace();
 		}
 	}
+
 	public static Connection getConnection() throws SQLException {
-		
+
 		String url = String.format("jdbc:mysql://%s:%d/%s?characterEncoding=%s", ip, port, database, encoding);
 		return DriverManager.getConnection(url, loginName, password);
 	}
-	
+
 	public static void main(String[] args) throws SQLException {
 		System.out.println(getConnection());
 	}

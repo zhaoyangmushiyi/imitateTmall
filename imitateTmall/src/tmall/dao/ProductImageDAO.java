@@ -12,19 +12,16 @@ import tmall.bean.Product;
 import tmall.bean.ProductImage;
 import tmall.util.DBUtil;
 
-public class ProductImageDAO{
-	
+public class ProductImageDAO {
+
 	public static final String type_single = "type_single";
 	public static final String type_detail = "type_detail";
-	
+
 	public int getTotal() {
 		// TODO Auto-generated method stub
 		int total = 0;
 		String sql = "select count(*) from ProductImage";
-		try (
-				Connection c = DBUtil.getConnection();
-				Statement s = c.createStatement())
-		{
+		try (Connection c = DBUtil.getConnection(); Statement s = c.createStatement()) {
 			ResultSet rs = s.executeQuery(sql);
 			while (rs.next()) {
 				total = rs.getInt(1);
@@ -39,13 +36,12 @@ public class ProductImageDAO{
 	public void add(ProductImage bean) {
 		// TODO Auto-generated method stub
 		String sql = "insert into ProductImage values(null,?,?)";
-		try (Connection c = DBUtil.getConnection(); PreparedStatement ps = c.prepareStatement(sql);) 
-		{
+		try (Connection c = DBUtil.getConnection(); PreparedStatement ps = c.prepareStatement(sql);) {
 			ps.setInt(1, bean.getProduct().getId());
 			ps.setString(2, bean.getType());
 			ps.execute();
 			ResultSet rs = ps.getGeneratedKeys();
-			if(rs.next()) {
+			if (rs.next()) {
 				int id = rs.getInt(1);
 				bean.setId(id);
 			}
@@ -57,78 +53,75 @@ public class ProductImageDAO{
 
 	public void update(ProductImage bean) {
 		// TODO Auto-generated method stub
-//		String sql = "update ProductImage set cid = ?, name= ? where id = ?";
-//		try(
-//				Connection c = DBUtil.getConnection();
-//				PreparedStatement ps = c.prepareStatement(sql);)
-//		{
-//			ps.setInt(1, bean.getCategory().getId());
-//			ps.setString(2, bean.getName());
-//			ps.setInt(3, bean.getId());
-//			ps.execute();
-//		} catch (SQLException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
+		// String sql = "update ProductImage set cid = ?, name= ? where id = ?";
+		// try(
+		// Connection c = DBUtil.getConnection();
+		// PreparedStatement ps = c.prepareStatement(sql);)
+		// {
+		// ps.setInt(1, bean.getCategory().getId());
+		// ps.setString(2, bean.getName());
+		// ps.setInt(3, bean.getId());
+		// ps.execute();
+		// } catch (SQLException e) {
+		// // TODO Auto-generated catch block
+		// e.printStackTrace();
+		// }
 	}
 
 	public void delete(int id) {
 		// TODO Auto-generated method stub
 		try (Connection c = DBUtil.getConnection(); Statement s = c.createStatement();) {
-			  
-            String sql = "delete from ProductImage where id = " + id;
-  
-            s.execute(sql);
-  
-        } catch (SQLException e) {
-  
-            e.printStackTrace();
-        }
-    }
+
+			String sql = "delete from ProductImage where id = " + id;
+
+			s.execute(sql);
+
+		} catch (SQLException e) {
+
+			e.printStackTrace();
+		}
+	}
 
 	public ProductImage get(int id) {
 		// TODO Auto-generated method stub
 		ProductImage bean = new ProductImage();
-		  
-        try (Connection c = DBUtil.getConnection(); Statement s = c.createStatement();) {
-  
-            String sql = "select * from ProductImage where id = " + id;
-  
-            ResultSet rs = s.executeQuery(sql);
-  
-            if (rs.next()) {
-                int pid = rs.getInt("pid");
-                String type = rs.getString("type");
-                Product product = new ProductDAO().get(pid);
-                bean.setId(id);
-                bean.setType(type);
-                bean.setProduct(product);
-            }
-  
-        } catch (SQLException e) {
-  
-            e.printStackTrace();
-        }
-        return bean;
+
+		try (Connection c = DBUtil.getConnection(); Statement s = c.createStatement();) {
+
+			String sql = "select * from ProductImage where id = " + id;
+
+			ResultSet rs = s.executeQuery(sql);
+
+			if (rs.next()) {
+				int pid = rs.getInt("pid");
+				String type = rs.getString("type");
+				Product product = new ProductDAO().get(pid);
+				bean.setId(id);
+				bean.setType(type);
+				bean.setProduct(product);
+			}
+
+		} catch (SQLException e) {
+
+			e.printStackTrace();
+		}
+		return bean;
 	}
 
 	public List<ProductImage> list(Product product, String type, int start, int count) {
 		// TODO Auto-generated method stub
 		List<ProductImage> beans = new ArrayList<>();
-		
+
 		String sql = "select * from ProductImage where pid = ? and type = ? order by desc limit ?,?";
-		
-		try (
-				Connection c = DBUtil.getConnection();
-				PreparedStatement ps = c.prepareStatement(sql);
-			){
+
+		try (Connection c = DBUtil.getConnection(); PreparedStatement ps = c.prepareStatement(sql);) {
 			ps.setInt(1, product.getId());
 			ps.setString(2, type);
 			ps.setInt(3, start);
 			ps.setInt(4, count);
-			
+
 			ResultSet rs = ps.executeQuery();
-			
+
 			while (rs.next()) {
 				ProductImage bean = new ProductImage();
 				int id = rs.getInt("id");
@@ -137,11 +130,11 @@ public class ProductImageDAO{
 				bean.setId(id);
 				beans.add(bean);
 			}
-			
+
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}	
+		}
 		return beans;
 	}
 
@@ -149,5 +142,5 @@ public class ProductImageDAO{
 		// TODO Auto-generated method stub
 		return list(product, type, 0, Short.MAX_VALUE);
 	}
-	
+
 }

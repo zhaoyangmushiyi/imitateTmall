@@ -12,16 +12,13 @@ import tmall.bean.Category;
 import tmall.bean.Property;
 import tmall.util.DBUtil;
 
-public class PropertyDAO{
-	
+public class PropertyDAO {
+
 	public int getTotal(int cid) {
 		// TODO Auto-generated method stub
 		int total = 0;
 		String sql = "select count(*) from Property where cid = " + cid;
-		try (
-				Connection c = DBUtil.getConnection();
-				Statement s = c.createStatement())
-		{
+		try (Connection c = DBUtil.getConnection(); Statement s = c.createStatement()) {
 			ResultSet rs = s.executeQuery(sql);
 			while (rs.next()) {
 				total = rs.getInt(1);
@@ -36,13 +33,12 @@ public class PropertyDAO{
 	public void add(Property bean) {
 		// TODO Auto-generated method stub
 		String sql = "insert into Property values(null,?,?)";
-		try (Connection c = DBUtil.getConnection(); PreparedStatement ps = c.prepareStatement(sql);) 
-		{
+		try (Connection c = DBUtil.getConnection(); PreparedStatement ps = c.prepareStatement(sql);) {
 			ps.setInt(1, bean.getCategory().getId());
 			ps.setString(2, bean.getName());
 			ps.execute();
 			ResultSet rs = ps.getGeneratedKeys();
-			if(rs.next()) {
+			if (rs.next()) {
 				int id = rs.getInt(1);
 				bean.setId(id);
 			}
@@ -55,10 +51,7 @@ public class PropertyDAO{
 	public void update(Property bean) {
 		// TODO Auto-generated method stub
 		String sql = "update Property set cid = ?, name= ? where id = ?";
-		try(
-				Connection c = DBUtil.getConnection();
-				PreparedStatement ps = c.prepareStatement(sql);)
-		{
+		try (Connection c = DBUtil.getConnection(); PreparedStatement ps = c.prepareStatement(sql);) {
 			ps.setInt(1, bean.getCategory().getId());
 			ps.setString(2, bean.getName());
 			ps.setInt(3, bean.getId());
@@ -72,58 +65,55 @@ public class PropertyDAO{
 	public void delete(int id) {
 		// TODO Auto-generated method stub
 		try (Connection c = DBUtil.getConnection(); Statement s = c.createStatement();) {
-			  
-            String sql = "delete from Property where id = " + id;
-  
-            s.execute(sql);
-  
-        } catch (SQLException e) {
-  
-            e.printStackTrace();
-        }
-    }
+
+			String sql = "delete from Property where id = " + id;
+
+			s.execute(sql);
+
+		} catch (SQLException e) {
+
+			e.printStackTrace();
+		}
+	}
 
 	public Property get(int id) {
 		// TODO Auto-generated method stub
 		Property bean = null;
-		  
-        try (Connection c = DBUtil.getConnection(); Statement s = c.createStatement();) {
-  
-            String sql = "select * from Property where id = " + id;
-  
-            ResultSet rs = s.executeQuery(sql);
-  
-            if (rs.next()) {
-                bean = new Property();
-                int cid = rs.getInt("cid");
-                String name = rs.getString("name");
-                bean.setName(name);
-                bean.setId(id);
-                Category category = new CategoryDAO().get(cid);
-                bean.setCategory(category);
-            }
-  
-        } catch (SQLException e) {
-  
-            e.printStackTrace();
-        }
-        return bean;
+
+		try (Connection c = DBUtil.getConnection(); Statement s = c.createStatement();) {
+
+			String sql = "select * from Property where id = " + id;
+
+			ResultSet rs = s.executeQuery(sql);
+
+			if (rs.next()) {
+				bean = new Property();
+				int cid = rs.getInt("cid");
+				String name = rs.getString("name");
+				bean.setName(name);
+				bean.setId(id);
+				Category category = new CategoryDAO().get(cid);
+				bean.setCategory(category);
+			}
+
+		} catch (SQLException e) {
+
+			e.printStackTrace();
+		}
+		return bean;
 	}
 
 	public List<Property> list(int cid, int start, int count) {
 		// TODO Auto-generated method stub
 		List<Property> beans = new ArrayList<>();
-		
+
 		String sql = "select * from Property where cid = ? order by desc limit ?,?";
-		
-		try (
-				Connection c = DBUtil.getConnection();
-				PreparedStatement ps = c.prepareStatement(sql);
-			){
+
+		try (Connection c = DBUtil.getConnection(); PreparedStatement ps = c.prepareStatement(sql);) {
 			ps.setInt(1, cid);
 			ps.setInt(2, start);
 			ps.setInt(3, count);
-			
+
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
 				Property bean = new Property();
@@ -135,11 +125,11 @@ public class PropertyDAO{
 				bean.setName(name);
 				beans.add(bean);
 			}
-			
+
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}	
+		}
 		return beans;
 	}
 
@@ -147,5 +137,5 @@ public class PropertyDAO{
 		// TODO Auto-generated method stub
 		return list(cid, 0, Short.MAX_VALUE);
 	}
-	
+
 }
