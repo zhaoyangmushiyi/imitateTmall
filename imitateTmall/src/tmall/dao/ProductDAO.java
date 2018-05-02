@@ -144,7 +144,10 @@ public class ProductDAO {
 
 	public void setSaleAndReviewNumber(Product product) {
 		// TODO Auto-generated method stub
-
+		int saleCount = new OrderItemDAO().getSaleCount(product.getId());
+		product.setSaleCount(saleCount);
+		int reviewCount = new ReviewDAO().getCount(product.getId());
+		product.setReviewCount(reviewCount);
 	}
 
 	public List<Product> list(int cid, int start, int count) {
