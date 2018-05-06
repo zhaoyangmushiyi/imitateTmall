@@ -1,4 +1,4 @@
-package tmall.bean;
+﻿package tmall.bean;
 
 public class PropertyValue {
 	private String value;

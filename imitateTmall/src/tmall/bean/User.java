@@ -1,4 +1,4 @@
-package tmall.bean;
+﻿package tmall.bean;
 
 public class User {
 	private int id;

@@ -1,4 +1,4 @@
-package tmall.util;
+﻿package tmall.util;
 
 public class DateUtil {
 	public static java.sql.Timestamp d2t(java.util.Date d) {

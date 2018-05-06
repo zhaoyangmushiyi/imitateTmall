@@ -1,4 +1,4 @@
-package tmall.bean;
+﻿package tmall.bean;
 
 import java.util.List;
 

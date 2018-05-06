@@ -1,4 +1,4 @@
-package tmall.dao;
+锘縫ackage tmall.dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -40,7 +40,7 @@ public class OrderItemDAO {
 
 			ps.setInt(1, bean.getProduct().getId());
 
-			// 订单项在创建的时候，是没有订单信息的
+			// 璁㈠崟椤瑰湪鍒涘缓鐨勬椂鍊欙紝鏄病鏈夎鍗曚俊鎭殑
 			if (null == bean.getOrder())
 				ps.setInt(2, -1);
 			else
