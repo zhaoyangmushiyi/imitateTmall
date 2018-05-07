@@ -112,7 +112,7 @@ public class ProductImageDAO {
 		// TODO Auto-generated method stub
 		List<ProductImage> beans = new ArrayList<>();
 
-		String sql = "select * from ProductImage where pid = ? and type = ? order by desc limit ?,?";
+		String sql = "select * from ProductImage where pid = ? and type = ? order by id desc limit ?,?";
 
 		try (Connection c = DBUtil.getConnection(); PreparedStatement ps = c.prepareStatement(sql);) {
 			ps.setInt(1, product.getId());
