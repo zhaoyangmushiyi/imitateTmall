@@ -107,7 +107,7 @@ public class PropertyDAO {
 		// TODO Auto-generated method stub
 		List<Property> beans = new ArrayList<>();
 
-		String sql = "select * from Property where cid = ? order by desc limit ?,?";
+		String sql = "select * from Property where cid = ? order by id desc limit ?,?";
 
 		try (Connection c = DBUtil.getConnection(); PreparedStatement ps = c.prepareStatement(sql);) {
 			ps.setInt(1, cid);

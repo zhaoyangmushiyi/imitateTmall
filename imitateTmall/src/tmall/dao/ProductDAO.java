@@ -154,7 +154,7 @@ public class ProductDAO {
 		// TODO Auto-generated method stub
 		List<Product> beans = new ArrayList<>();
 
-		String sql = "select * from Product where cid = ? order by desc limit ?,?";
+		String sql = "select * from Product where cid = ? order by id desc limit ?,?";
 
 		try (Connection c = DBUtil.getConnection(); PreparedStatement ps = c.prepareStatement(sql);) {
 
@@ -202,7 +202,7 @@ public class ProductDAO {
 		// TODO Auto-generated method stub
 		List<Product> beans = new ArrayList<>();
 
-		String sql = "select * from Product order by desc limit ?,?";
+		String sql = "select * from Product order by id desc limit ?,?";
 
 		try (Connection c = DBUtil.getConnection(); PreparedStatement ps = c.prepareStatement(sql);) {
 

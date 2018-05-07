@@ -139,7 +139,7 @@ public class PropertyValueDAO {
 		List<PropertyValue> beans = new ArrayList<>();
 		;
 
-		String sql = "select * from PropertyValue order by desc limit ?,?";
+		String sql = "select * from PropertyValue order by id desc limit ?,?";
 
 		try (Connection c = DBUtil.getConnection(); PreparedStatement ps = c.prepareStatement(sql);) {
 			ps.setInt(1, start);

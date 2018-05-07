@@ -107,7 +107,7 @@ public class CategoryDAO implements DAO<Category> {
 		// TODO Auto-generated method stub
 		List<Category> beans = new ArrayList<>();
 
-		String sql = "select * from category order by desc limit ?,?";
+		String sql = "select * from category order by id desc limit ?,?";
 
 		try (Connection c = DBUtil.getConnection(); PreparedStatement ps = c.prepareStatement(sql);) {
 

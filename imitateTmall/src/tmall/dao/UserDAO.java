@@ -111,7 +111,7 @@ public class UserDAO implements DAO<User> {
 		// beanODO Auto-generated method stub
 		List<User> beans = new ArrayList<>();
 
-		String sql = "select * from User order by desc limit ?,?";
+		String sql = "select * from User order by id desc limit ?,?";
 
 		try (Connection c = DBUtil.getConnection(); PreparedStatement ps = c.prepareStatement(sql);) {
 
