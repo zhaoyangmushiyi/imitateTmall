@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.imageio.ImageIO;
@@ -50,14 +51,17 @@ public class CategoryServlet extends BaseBackServlet {
 
 	@Override
 	public String delete(HttpServletRequest request, HttpServletResponse response, Page page) {
-		// TODO Auto-generated method stub
-		return null;
+		int id = Integer.parseInt(request.getParameter("id"));
+		categoryDAO.delete(id);
+		return "@admin_category_list";
 	}
 
 	@Override
 	public String edit(HttpServletRequest request, HttpServletResponse response, Page page) {
-		// TODO Auto-generated method stub
-		return null;
+		int id = Integer.parseInt(request.getParameter("id"));
+		Category c = categoryDAO.get(id);
+		request.setAttribute("c", c);
+		return "admin/editCategory.jsp";
 	}
 
 	@Override
@@ -68,8 +72,14 @@ public class CategoryServlet extends BaseBackServlet {
 
 	@Override
 	public String list(HttpServletRequest request, HttpServletResponse response, Page page) {
-		// TODO Auto-generated method stub
-		return null;
+		List<Category> cs = categoryDAO.list(page.getStart(),page.getCount());
+        int total = categoryDAO.getTotal();
+        page.setTotal(total);
+         
+        request.setAttribute("thecs", cs);
+        request.setAttribute("page", page);
+         
+        return "admin/listCategory.jsp";
 	}
 
 }
