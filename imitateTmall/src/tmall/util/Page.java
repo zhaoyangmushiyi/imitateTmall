@@ -45,7 +45,7 @@ public class Page {
 		this.param = param;
 	}
 
-	public boolean isHasPreviouse() {
+	public boolean isHasPrevious() {
 		if (start == 0) {
 			return false;
 		}
