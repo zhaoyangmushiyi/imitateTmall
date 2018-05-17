@@ -48,7 +48,6 @@
 						<td><a deleteLink="true"
 							href="admin_property_delete?id=${property.id}"><span
 								class="glyphicon glyphicon-trash"></span></a></td>
-
 					</tr>
 				</c:forEach>
 			</tbody>
@@ -62,8 +61,7 @@
 	<div class="panel panel-warning addDiv">
 		<div class="panel-heading">新增属性</div>
 		<div class="panel-body">
-			<form method="post" id="addForm" action="admin_category_add"
-				enctype="multipart/form-data">
+			<form method="post" id="addForm" action="admin_property_add">
 				<table class="addTable">
 					<tr>
 						<td>属性名称</td>

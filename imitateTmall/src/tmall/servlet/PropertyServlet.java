@@ -20,7 +20,7 @@ public class PropertyServlet extends BaseBackServlet {
 		property.setCategory(category);
 		property.setName(name);
 		propertyDAO.add(property);
-		return "@admin_property_list?cid";
+		return "@admin_property_list?cid=" + cid;
 	}
 
 	@Override
@@ -29,7 +29,7 @@ public class PropertyServlet extends BaseBackServlet {
 		int id = Integer.parseInt(request.getParameter("id"));
 		Property property = propertyDAO.get(id);
 		propertyDAO.delete(id);
-		return "admin_property_list?cid=" + property.getCategory().getId();
+		return "@admin_property_list?cid=" + property.getCategory().getId();
 	}
 
 	@Override
@@ -43,8 +43,8 @@ public class PropertyServlet extends BaseBackServlet {
 
 	@Override
 	public String update(HttpServletRequest request, HttpServletResponse response, Page page) {
-		 int cid = Integer.parseInt("cid");
-		 int id = Integer.parseInt("id");
+		 int cid = Integer.parseInt(request.getParameter("cid"));
+		 int id = Integer.parseInt(request.getParameter("id"));
 		 Category category = categoryDAO.get(cid);
 		 Property property = propertyDAO.get(id);
 		 String name = request.getParameter("name");
@@ -52,7 +52,7 @@ public class PropertyServlet extends BaseBackServlet {
 		 property.setCategory(category);
 		 property.setId(id);
 		 propertyDAO.update(property);
-		 return "admin_property_list?cid="+property.getCategory().getId();
+		 return "@admin_property_list?cid="+property.getCategory().getId();
 	}
 
 	@Override
