@@ -67,8 +67,39 @@ public class CategoryServlet extends BaseBackServlet {
 
 	@Override
 	public String update(HttpServletRequest request, HttpServletResponse response, Page page) {
-		// TODO Auto-generated method stub
-		return null;
+		Map<String, String> params = new HashMap<>();
+		InputStream is = super.parseUpload(request, params);
+		
+		System.out.println(params);
+		String name = params.get("name");
+		int id = Integer.parseInt(params.get("id"));
+		Category c = new Category();
+		c.setId(id);
+		c.setName(name);
+		categoryDAO.update(c);
+		File imageFolder = new File(request.getSession().getServletContext().getRealPath("img/category"));
+		File file = new File(imageFolder, c.getId() + ".jpg");
+		file.getParentFile().mkdirs();
+		try {
+			if (is != null && is.available() != 0) {
+				try(FileOutputStream fos = new FileOutputStream(file);) {
+					byte[] b = new byte[1024 * 1024];
+					int length = 0;
+					while((length = is.read(b)) != -1) {
+						fos.write(b, 0, length);
+					}
+					fos.flush();
+					BufferedImage img = ImageUtil.change2jpg(file);
+					ImageIO.write(img, "jpg", file);
+				} catch (Exception e) {
+					// TODO: handle exception
+				}
+			}
+		} catch (IOException e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		return "@admin_category_list";
 	}
 
 	@Override
