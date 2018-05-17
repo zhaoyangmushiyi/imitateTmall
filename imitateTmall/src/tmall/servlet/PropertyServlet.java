@@ -1,16 +1,11 @@
 package tmall.servlet;
-
-import java.io.InputStream;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import tmall.bean.Category;
 import tmall.bean.Property;
-import tmall.dao.CategoryDAO;
 import tmall.util.Page;
 
 public class PropertyServlet extends BaseBackServlet {
@@ -63,7 +58,6 @@ public class PropertyServlet extends BaseBackServlet {
 	@Override
 	public String list(HttpServletRequest request, HttpServletResponse response, Page page) {
 		int cid = Integer.parseInt(request.getParameter("cid"));
-		int id = Integer.parseInt(request.getParameter("id"));
 		Category category = categoryDAO.get(cid);
 		List<Property> properties = propertyDAO.list(cid, page.getStart(), page.getCount());
 		int total = propertyDAO.getTotal(cid);
