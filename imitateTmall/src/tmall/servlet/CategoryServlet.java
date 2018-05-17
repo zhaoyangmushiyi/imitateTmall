@@ -79,7 +79,7 @@ public class CategoryServlet extends BaseBackServlet {
 		categoryDAO.update(c);
 		File imageFolder = new File(request.getSession().getServletContext().getRealPath("img/category"));
 		File file = new File(imageFolder, c.getId() + ".jpg");
-		file.getParentFile().mkdirs();
+		file.getParentFile().mkdirs();//确保图片所在的目录是被创建了的，否则会无法创建图片文件
 		try {
 			if (is != null && is.available() != 0) {
 				try(FileOutputStream fos = new FileOutputStream(file);) {
