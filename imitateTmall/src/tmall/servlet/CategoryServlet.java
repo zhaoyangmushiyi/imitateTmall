@@ -93,6 +93,7 @@ public class CategoryServlet extends BaseBackServlet {
 					ImageIO.write(img, "jpg", file);
 				} catch (Exception e) {
 					// TODO: handle exception
+					e.printStackTrace();
 				}
 			}
 		} catch (IOException e) {
