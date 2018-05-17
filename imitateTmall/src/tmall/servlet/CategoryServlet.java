@@ -3,6 +3,7 @@ package tmall.servlet;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
@@ -29,21 +30,21 @@ public class CategoryServlet extends BaseBackServlet {
 		File imageFolder = new File(request.getSession().getServletContext().getRealPath("img/category"));
         File file = new File(imageFolder,c.getId()+".jpg");
         try {
-			if (is == null && is.available() != 0) {
+			if (is != null && is.available() != 0) {
 				try (FileOutputStream fos = new FileOutputStream(file)){
 					byte b[] = new byte[1024 * 1024];
 					int length = 0;
 					while ((length = is.read(b)) != -1) {
 						fos.write(b, 0, length);
 					}
-					fos.close();
+					fos.flush();
 					BufferedImage img = ImageUtil.change2jpg(file);
 					ImageIO.write(img, "jpg", file);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 			}
-		} catch (Exception e) {
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
         return "@admin_category_list";

@@ -94,7 +94,7 @@ public abstract class BaseBackServlet extends HttpServlet {
 			DiskFileItemFactory factory = new DiskFileItemFactory();
 			ServletFileUpload upload = new ServletFileUpload(factory);
 			// 设置上传文件的大小限制为10M
-			factory.setSizeThreshold(1024 * 10240);
+			factory.setSizeThreshold(1024 * 1024);
 
 			List items = upload.parseRequest(request);
 			Iterator iter = items.iterator();
