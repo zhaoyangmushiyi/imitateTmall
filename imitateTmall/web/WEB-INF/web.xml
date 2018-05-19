@@ -20,6 +20,16 @@
 		<url-pattern>/propertyServlet</url-pattern>
 	</servlet-mapping>
 	
+	<servlet>
+		<servlet-name>ProductServlet</servlet-name>
+		<servlet-class>tmall.servlet.ProductServlet</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>ProductServlet</servlet-name>
+		<url-pattern>/productServlet</url-pattern>
+	</servlet-mapping>
+	
 	<filter>
 		<filter-name>BackServletFilter</filter-name>
 		<filter-class>tmall.filter.BackServletFilter</filter-class>

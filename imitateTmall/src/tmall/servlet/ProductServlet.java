@@ -91,7 +91,7 @@ public class ProductServlet extends BaseBackServlet {
 		page.setParam("&cid=" + cid);
 		request.setAttribute("products", products);
 		request.setAttribute("category", category);
-		
+		request.setAttribute("page", page);
 		return "admin/listProduct.jsp";
 	}
 
