@@ -4,7 +4,21 @@
 <%@include file="../include/admin/adminHeader.jsp"%>
 <%@include file="../include/admin/adminNavigator.jsp"%>
 <script>
-	
+	$(function() {
+		$("#addForm").submit(function() {
+			if (!checkEmpty("name", "产品名称"))
+				return false;
+//			if (!checkEmpty("subTitle", "小标题"))
+//				return false;
+			if (!checkNumber("orignalPrice", "原价格"))
+				return false;
+			if (!checkNumber("promotePrice", "优惠价格"))
+				return false;
+			if (!checkInt("stock", "库存"))
+				return false;
+			return true;
+		});
+	});
 </script>
 <title>产品管理</title>
 <div class="workingArea">
@@ -32,34 +46,80 @@
 					<th width="42px">删除</th>
 				</tr>
 			</thead>
-			
+
 			<tbody>
 				<c:forEach items="${products}" var="product">
 					<tr>
 						<td>${product.id}</td>
-						<td>
-							<c:if test="${!empty product.firstProductImage}">
-								<img width="40px" src="img/productSingnal/${product.firstProductImage.id}.jpg">
-							</c:if>
-						</td>
+						<td><c:if test="${!empty product.firstProductImage}">
+								<img width="40px"
+									src="img/productSingnal/${product.firstProductImage.id}.jpg">
+							</c:if></td>
 						<td>${product.name}</td>
 						<td>${product.subTitle}</td>
 						<td>${product.orignalPrice}</td>
 						<td>${product.promotePrice}</td>
 						<td>${product.stock}</td>
-						<td><a></a></td>
-						<td><a></a></td>
-						<td><a></a></td>
+						<td><a href="admin_productImage_list?pid=${product.id}"><span
+								class="glyphicon glyphicon-picture"></span></a></td>
+						<td><a
+							href="admin_product_editProvertyValue?id=${product.id}"><span
+								class="glyphicon glyphicon-th-list"></span></a></td>
+						<td><a href="admin_product_edit?id=${product.id}"><span
+								class="glyphicon glyphicon-edit"></span></a></td>
+						<td><a deleteLink="true"
+							href="admin_product_delete?id=${product.id}"><span
+								class="glyphicon glyphicon-trash"></span></a></td>
 					</tr>
 				</c:forEach>
 			</tbody>
 		</table>
 	</div>
-	
+
 	<div class="pageDiv">
 		<%@include file="../include/admin/adminPage.jsp"%>
 	</div>
-	
+
+	<div class="panel panel-warning addDiv">
+		<div class="panel-heading">新增产品</div>
+		<div class="panel-body">
+			<form method="post" id="addForm" action="admin_product_add">
+				<table class="addTable">
+					<tr>
+						<td>产品名称</td>
+						<td><input id="name" name="name" type="text"
+							class="form-control"></td>
+					</tr>
+					<tr>
+						<td>产品小标题</td>
+						<td><input id="subTitle" name="subTitle" type="text"
+							class="form-control"></td>
+					</tr>
+					<tr>
+						<td>原价格</td>
+						<td><input id="orignalPrice" name="orignalPrice" type="text"
+							value="99.99" class="form-control"></td>
+					</tr>
+					<tr>
+						<td>优惠价格</td>
+						<td><input id="promotePrice" name="promotePrice" type="text"
+							value="19.99" class="form-control"></td>
+					</tr>
+					<tr>
+						<td>库存</td>
+						<td><input id="stock" name="stock" type="text" value="99"
+							class="form-control"></td>
+					</tr>
+					<tr class="submitTR">
+						<td colspan="2" align="center"><input type="hidden"
+							name="cid" value="${category.id}">
+							<button type="submit" class="btn btn-success">提 交</button></td>
+					</tr>
+				</table>
+			</form>
+		</div>
+	</div>
+
 	<%@include file="../include/admin/adminFooter.jsp"%>
-	
+
 </div>
