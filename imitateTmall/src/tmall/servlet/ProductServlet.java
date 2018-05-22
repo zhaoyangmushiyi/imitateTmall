@@ -1,5 +1,6 @@
 package tmall.servlet;
 
+import java.io.UnsupportedEncodingException;
 import java.util.Date;
 import java.util.List;
 
@@ -14,13 +15,25 @@ public class ProductServlet extends BaseBackServlet {
 
 	@Override
 	public String add(HttpServletRequest request, HttpServletResponse response, Page page) {
-		
+		try {
+			request.setCharacterEncoding("UTF-8");
+			System.out.println("***");
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		int cid = Integer.parseInt(request.getParameter("cid"));
 		
 		Category category = categoryDAO.get(cid);
+		String name = null;
+		String subTitle = null;
+		try {
+			name = new String(request.getParameter("name").getBytes("ISO-8859-1"),"UTF-8");
+			subTitle = new String(request.getParameter("subTitle").getBytes("ISO-8859-1"),"UTF-8");
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
 		
-		String name = request.getParameter("name");
-		String subTitle = request.getParameter("subTitle");
 		float orignalPrice = Float.parseFloat(request.getParameter("orignalPrice"));
 		float promotePrice = Float.parseFloat(request.getParameter("promotePrice"));
 		int stock = Integer.parseInt(request.getParameter("stock"));
@@ -34,7 +47,8 @@ public class ProductServlet extends BaseBackServlet {
 		product.setCategory(category);
 		product.setCreateDate(new Date(System.currentTimeMillis()));
 		productDAO.add(product);
-		
+		System.out.println(request.getParameter("name"));
+		System.out.println(product.getName());
 		return "@admin_product_list?cid=" + cid;
 	}
 
@@ -52,7 +66,7 @@ public class ProductServlet extends BaseBackServlet {
 		int id = Integer.parseInt(request.getParameter("id"));
 		Product product = productDAO.get(id);
 		request.setAttribute("product", product);
-		return "admin/editeProduct.jsp";
+		return "admin/editProduct.jsp";
 	}
 
 	@Override
@@ -60,8 +74,14 @@ public class ProductServlet extends BaseBackServlet {
 		int cid = Integer.parseInt(request.getParameter("cid"));	
 		Category category = categoryDAO.get(cid);
 		int id = Integer.parseInt(request.getParameter("id"));
-		String name = request.getParameter("name");
-		String subTitle = request.getParameter("subTitle");
+		String name = null;
+		String subTitle = null;
+		try {
+			name = new String(request.getParameter("name").getBytes("ISO-8859-1"),"UTF-8");
+			subTitle = new String(request.getParameter("subTitle").getBytes("ISO-8859-1"),"UTF-8");
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
 		float orignalPrice = Float.parseFloat(request.getParameter("orignalPrice"));
 		float promotePrice = Float.parseFloat(request.getParameter("promotePrice"));
 		int stock = Integer.parseInt(request.getParameter("stock"));

@@ -1,4 +1,5 @@
 package tmall.servlet;
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -14,7 +15,13 @@ public class PropertyServlet extends BaseBackServlet {
 	public String add(HttpServletRequest request, HttpServletResponse response, Page page) {
 		// TODO Auto-generated method stub
 		int cid = Integer.parseInt(request.getParameter("cid"));
-		String name = request.getParameter("name");
+		String name =null;
+		try {
+			name = new String((request.getParameter("name")).getBytes("ISO-8859-1"),"UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		Category category = categoryDAO.get(cid);
 		Property property = new Property();
 		property.setCategory(category);
@@ -47,7 +54,13 @@ public class PropertyServlet extends BaseBackServlet {
 		 int id = Integer.parseInt(request.getParameter("id"));
 		 Category category = categoryDAO.get(cid);
 		 Property property = propertyDAO.get(id);
-		 String name = request.getParameter("name");
+		 String name =null;
+			try {
+				name = new String((request.getParameter("name")).getBytes("ISO-8859-1"),"UTF-8");
+			} catch (UnsupportedEncodingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		 property.setName(name);
 		 property.setCategory(category);
 		 property.setId(id);
